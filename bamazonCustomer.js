@@ -20,6 +20,7 @@ var bamazon = {
   productID: 0,
   orderQTY: 0,
   productInv: 0,
+  
 
   start: function () {
     this.doConnect();
@@ -60,15 +61,8 @@ var bamazon = {
         this.productID = inq.productID;
         this.orderQTY = inq.orderQTY;
         this.productInv = bamazon.checkInv(this.productID);
-        if(this.productInv >= this.orderQTY){
-          bamazon.doSale(this.productID,this.orderQTY);
-        }else {
-          console.log("Sorry, we do not have enough in stock.")
-        }
-        // console.log("Product Id", this.productID)
-        // console.log("Product Qty", this.orderQTY)
-        connection.end();
-
+        // console.log("sell Value " + productInv)
+        
       })
 
   },
@@ -78,16 +72,27 @@ var bamazon = {
     function (err, res){
       if (err) throw err;
       if(res){
-        console.log(res);
-        return res;
+        productInv = res[0].stock_quantity;
+        // console.log("res " + res[0].stock_quantity);
+        console.log('Checkinv productInv ' + productInv);
+        if(this.productInv >= this.orderQTY){
+          bamazon.doSale(this.productID,this.orderQTY);
+        }else {
+          console.log("Sorry, we do not have enough in stock.")
+        }
+        // console.log("Product Id", this.productID)
+        // console.log("Product Qty", this.orderQTY)
+        connection.end();
+
       }
 
 
     })
 
   },
-  doSale: function(id, orderQTY){
-    newInv = productInv-orderQTY;
+  doSale: function(id,orderQTY,productInv){
+    newInv = bamazon.productInv-orderQTY;
+    console.log("New Inventory" + newInv)
     connection.query('select products.stock_quantity set ? where ?',
     [{stock_quantity: newInv}, {id:id}],
     function (err, res){
@@ -97,7 +102,7 @@ var bamazon = {
         return res;
       }
     },
-    this.printReciept(product_name,price,orderQTY))
+    this.printReciept(product_name,price,orderQTY));
     
   },
   printReciept: function(product_name,price,orderQTY){
