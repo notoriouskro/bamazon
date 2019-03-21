@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "",
+  password: "Steinh0fer",
   database: "bamazon_db"
 });
 
@@ -58,25 +58,27 @@ var bamazon = {
         }
       ])
       .then(function (inq) {
-        this.productID = inq.productID;
-        this.orderQTY = inq.orderQTY;
-        this.productInv = bamazon.checkInv(this.productID);
+        bamazon.productID = Number(inq.productID);
+        bamazon.orderQTY = Number(inq.orderQTY);
+        bamazon.productInv = bamazon.checkInv(bamazon.productID);
         // console.log("sell Value " + productInv)
         
       })
 
   },
   checkInv: function (id) {
-    connection.query('select products.stock_quantity from products where ?',
+    connection.query('select products.stock_quantity, products.price from products where ?',
     {id:id},
     function (err, res){
       if (err) throw err;
       if(res){
-        productInv = res[0].stock_quantity;
+        var productInv = res[0].stock_quantity;
+        var price = res[0].price;
         // console.log("res " + res[0].stock_quantity);
         console.log('Checkinv productInv ' + productInv);
-        if(this.productInv >= this.orderQTY){
-          bamazon.doSale(this.productID,this.orderQTY);
+        console.log(productInv, bamazon.orderQTY);
+        if(productInv >= bamazon.orderQTY){
+          bamazon.doSale(bamazon.productID,bamazon.orderQTY, price);
         }else {
           console.log("Sorry, we do not have enough in stock.")
         }
@@ -90,26 +92,21 @@ var bamazon = {
     })
 
   },
-  doSale: function(id,orderQTY,productInv){
-    newInv = bamazon.productInv-orderQTY;
-    console.log("New Inventory" + newInv)
-    connection.query('select products.stock_quantity set ? where ?',
-    [{stock_quantity: newInv}, {id:id}],
+  doSale: function(id,orderQTY,price){
+    // newInv = bamazon.productInv-orderQTY;
+    connection.query('UPDATE products SET products.stock_quantity = products.stock_quantity -'+ orderQTY.toString() +' where ?',
+    {id:id},
     function (err, res){
       if (err) throw err;
       if(res){
-        console.log(res);
-        return res;
+        bamazon.printReciept(id,orderQTY, price);
       }
-    },
-    this.printReciept(product_name,price,orderQTY));
-    
+    })
   },
-  printReciept: function(product_name,price,orderQTY){
+  printReciept: function(id,orderQTY, price){
     console.log('Thanks for shopping with us!');
     console.log(moment().format('MMMM do YYYY, h:mm a'));
-    console.log('Item: ' + this.product_name);
-    console.log('Qty: ' + orderQTY + 'Price: ' + price + 'Total: ' + (price*orderQTY));
+    console.log('Qty: ' + orderQTY + ' Price: ' + price + ' Total: ' + (price*orderQTY));
   }
 
 };
