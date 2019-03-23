@@ -14,7 +14,7 @@ Amazon-like storefront using MySQL & Node. The app will take in orders from cust
 
 
 ### Within the adminstrator's (manager) interface you are able to: 
-![manager](https://github.com/notoriouskro/bamazon/blob/master/images/managerView.png)
+![manager](https://github.com/notoriouskro/bamazon/blob/master/images/managerOptions.png)
 
 - View Products for Sale: 
 * the administrator will see an up to date list of items for sale, to include the department, prices, and stock level
