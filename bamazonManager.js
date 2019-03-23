@@ -94,70 +94,75 @@ var bamazon = {
             console.log("Your item was successfully!");
             bamazon.showProducts();
           }
-          );
-        });
-    },
-    
+        );
+      });
+  },
+  updateInventory: function () {
 
-            showProducts: function () {
-              connection.query('select * from products',
-                function (err, res) {
-                  if (err) throw err;
-                  if (res) {
-                    console.table(res);
-                  }
-                })
-            },
-  
+    // This function should grab a specific item in the product table and change the inventory.
+
+  },
+
+
+  showProducts: function () {
+    connection.query('select * from products',
+      function (err, res) {
+        if (err) throw err;
+        if (res) {
+          console.table(res);
+        }
+      })
+  },
+
   runManager: function () {
-            inquirer
+    inquirer
 
-              .prompt({
-                name: "action",
-                type: "list",
-                message: "What would you like to do?",
-                choices: [
-                  "View products for sale",
-                  "View low inventory",
-                  "Add to inventory",
-                  "Add new product",
-                  "Exit"
-                ]
-              })
-              .then(function (answer) {
-                switch (answer.action) {
-                  case "View products for sale":
-                    bamazon.showProducts();
-                    break;
+      .prompt({
+        name: "action",
+        type: "list",
+        message: "What would you like to do?",
+        choices: [
+          "View products for sale",
+          "View low inventory",
+          "Add to inventory",
+          "Add new product",
+          "Exit"
+        ]
+      })
+      .then(function (answer) {
+        switch (answer.action) {
+          case "View products for sale":
+            bamazon.showProducts();
+            break;
 
-                  case "View low inventory":
-                    bamazon.lowInventory();
-                    break;
+          case "View low inventory":
+            bamazon.lowInventory();
+            break;
 
-                  case "Add to inventory":
-                    bamazon.addInventory();
-                    break;
+          case "Add to inventory":
+            bamazon.addInventory();
+            break;
 
-                  case "Add new product":
-                    bamazon.addProduct();
-                    break;
+          case "Update Inventory":
+            bamazon.updateInventory();
+            break;
 
-                  case "exit":
-                    connection.end();
-                    break;
-                };
-              });
+          case "exit":
+            connection.end();
+            break;
+        };
+      });
 
-          },
+  },
 
-          showProducts: function () {
-            connection.query('select * from products',
-              function (err, res) {
-                if (err) throw err;
-                if (res) {
-                  console.table(res);
-                }
-              });
-          }
+  showProducts: function () {
+    connection.query('select * from products',
+      function (err, res) {
+        if (err) throw err;
+        if (res) {
+          console.table(res);
+        }
+      });
+  }
 }
 bamazon.start();
