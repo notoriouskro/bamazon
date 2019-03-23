@@ -29,7 +29,7 @@ Amazon-like storefront using MySQL & Node. The app will take in orders from cust
 
 - Add New Product:
 * admin can add a new product to the storefront to be sold, admin is prompted to provide the name, department, price, and initial stock quantity.
-![manager](https://github.com/marvtron/bamazonCLI/blob/master/Screenshots/bamazonManager.png)
+![manager](https://github.com/notoriouskro/bamazon/blob/master/images/addInventory.png)
 
 
 ### Getting Started
