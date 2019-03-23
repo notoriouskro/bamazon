@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "Steinh0fer",
+  password: "",
   database: "bamazon_db"
 });
 
@@ -105,6 +105,7 @@ var bamazon = {
   },
   printReciept: function(id,orderQTY, price){
     console.log('Thanks for shopping with us!');
+
     console.log(moment().format('MMMM do YYYY, h:mm a'));
     console.log('Qty: ' + orderQTY + ' Price: ' + price + ' Total: ' + (price*orderQTY));
   }
