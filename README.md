@@ -18,7 +18,7 @@ Amazon-like storefront using MySQL & Node. The app will take in orders from cust
 
 - View Products for Sale: 
 * the administrator will see an up to date list of items for sale, to include the department, prices, and stock level
-![manager](https://github.com/marvtron/bamazonCLI/blob/master/Screenshots/bamazonManager.png)
+![manager](https://github.com/notoriouskro/bamazon/blob/master/images/managerView.png)
 
 - View Low Inventory:
 * the administrator will be given a list of any and all items whose stock levels have fallen below 10
